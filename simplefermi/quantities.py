@@ -1,5 +1,6 @@
 """The main Quantity class."""
 
+import operator
 import functools
 import numpy as np
 import dimensions
@@ -9,6 +10,9 @@ import numbers
 @functools.total_ordering
 class Quantity(np.lib.mixins.NDArrayOperatorsMixin):
     _HANDLED_TYPES = (np.ndarray, numbers.Number)
+    _CONFORMING_UFUNCS = (np.add, np.subtract, np.minimum, np.maximum)
+    _NONLINEAR_UFUNCS = (np.sin, np.cos, np.tan, np.exp, np.log)
+    _MAPPED_UFUNCS = (np.multiply, np.divide, np.floor_divide)
 
     def __init__(self, value, dimension):
         self.value = value
@@ -24,11 +28,16 @@ class Quantity(np.lib.mixins.NDArrayOperatorsMixin):
     def __hash__(self):
         return hash((self.value, self.dimension))
 
+    def __len__(self):
+        return len(self.value)
+
     def __array_ufunc__(self, ufunc, method, *inputs, **kwargs):
+        # print(f"inside __array_ufunc__({ufunc}, {method}, {inputs}, {kwargs})")
         out = kwargs.get('out', ())
         for x in inputs + out:
             if not isinstance(x, self._HANDLED_TYPES + (Quantity,)):
                 return NotImplemented
+
 
         input_dimensions = tuple(x.dimension if isinstance(x, Quantity) else dimensions.DIMENSIONLESS
                          for x in inputs)
@@ -38,12 +47,25 @@ class Quantity(np.lib.mixins.NDArrayOperatorsMixin):
             kwargs['out'] = tuple(
                     x.value if isinstance(x, Quantity) else x
                     for x in out)
+
+
+        if ufunc in self._CONFORMING_UFUNCS:
+            # check to make sure that all of the inputs have the same dimensions.
+            assert functools.reduce(operator.eq, input_dimensions), f"Can only use {ufunc} on conforming quantities!"
+            result_dimension = input_dimensions[0]
+        elif ufunc in self._MAPPED_UFUNCS:
+            result_dimension = getattr(ufunc, method)(*input_dimensions, **kwargs)
+        elif ufunc in self._NONLINEAR_UFUNCS:
+            assert all(x.dimensionless for x in input_dimensions), f"Can only use {ufunc} on dimensionless quantities!"
+            result_dimension = input_dimensions[0]
+        else:
+            return NotImplemented
+
         result = getattr(ufunc, method)(*inputs, **kwargs)
-        result_dimension = getattr(ufunc, method)(*input_dimensions, **kwargs)
 
         if type(result) is tuple:
             # multiple return values
-            return tuple(type(self)(x, y) for x, y in zip(result, result_dimension))
+            return tuple(type(self)(x, result_dimension) for x in result)
         elif method == 'at':
             # no return value
             return None

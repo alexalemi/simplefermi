@@ -12,14 +12,14 @@ def store(quantity, name):
 ## API
 
 Q = Quantity
-one = Fraction(1, 1)
+one = 1  # Fraction(1, 1)
 
 def make(s: str) -> Quantity:
     return Q(one, Dimension.make(s))
 
 ## Prefixes
 
-ten = Fraction(10, 1)
+ten = 10  # Fraction(10, 1)
 hella =   ten**27                   ## 1E27 Californian hella, "lots"
 yotta =   ten**24                   ## 1E24 Greek or Latin octo, "eight"
 zetta =   ten**21                   ## 1E21 Latin septem, "seven"
@@ -77,7 +77,7 @@ second = s
 kg = make("kg")
 store(kg, "mass")
 kilogram = kg
-gram = kg * Fraction(1, 1000)
+gram = kg * milli
 
 A = make("A")
 store(A, "current")

@@ -126,10 +126,6 @@ class Dimension(object):
     self._dict = {symbol: power for symbol, power in self._dict.items() if power != 0}
     return self
 
-  def __add__(self, other):
-      assert self.conforms(other), "Can only add conforming dimensions!"
-      return self
-
   def __pow__(self, other):
     try:
       if other.dimensionless:
@@ -166,6 +162,8 @@ class Dimension(object):
         raise TypeError('Can only divide Dimensions by Symbols or other Dimensions.')
     return self.__class__(new_dict)
 
+  __floordiv__ = __truediv__
+
   def __rtruediv__(self, other):
     dictionary = {symbol: -power for symbol, power in self}
     if isinstance(other, int):
@@ -181,7 +179,7 @@ class Dimension(object):
         return repr(symbol)
       return "%r^%s" % (symbol, power)
     if self.dimensionless:
-      return "[1]"
+      return "1"
 
     return " ".join([_format(symbol, power) for symbol, power in iter(self)])
 
