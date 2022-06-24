@@ -1,4 +1,5 @@
 __pycache__
+Pipfile.lock
 *.pyc
 Fermi.egg-info
 dist/

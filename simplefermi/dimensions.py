@@ -17,7 +17,6 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from builtins import input, str, dict, object
-from future.utils import python_2_unicode_compatible
 
 import functools
 import numbers
@@ -32,7 +31,6 @@ def _dec(dictionary, symbol, power = 1):
   return dictionary
 
 
-@python_2_unicode_compatible
 @functools.total_ordering
 class Symbol(object):
   """Represents a Symbol."""
@@ -92,7 +90,6 @@ class Symbol(object):
     return Dimension(dictionary)
 
 
-@python_2_unicode_compatible
 class Dimension(object):
   """Represents the Dimension part of the Quantity."""
 
