@@ -1,7 +1,7 @@
 
 from simplefermi.library import *
 from simplefermi.distributions import *
-import simplefermi.utils
+from simplefermi import utils
 from simplefermi.quantities import Quantity
 
 
@@ -14,4 +14,11 @@ def quantile(q: Quantity, p: float) -> Quantity:
 def median(q: Quantity) -> Quantity:
     return Quantity(np.median(q.value), q.dimension)
 
+def sigfig(s):
+    return plusminus(float(s), 0.5 * utils.sigfig_resolution(s))
 
+def percent(val, error):
+    return plusminus(val, error * val)
+
+
+One = Q(1, DIMENSIONLESS)

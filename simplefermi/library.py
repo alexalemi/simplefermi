@@ -1,6 +1,8 @@
 
 # from fractions import Fraction
 
+import math
+
 from simplefermi.dimensions import Dimension, DIMENSIONLESS
 from simplefermi.quantities import Quantity
 from simplefermi.distributions import data, plusminus
@@ -205,6 +207,9 @@ vigintillion =        ten**63
 centillion =          ten**303
 
 googol = ten**100
+pi = math.pi
+e = math.e
+tau = math.tau
 
 
 ## Named SI Derived units
@@ -280,11 +285,21 @@ fortnight = day * 14
 blink = day * ten**-5  ## Actual human blink takes 1/3 second
 ce = day * ten**-2
 
+## English units
+
+inch = 2.54 * centi * m
+foot = 12 * inch
+feet = foot
+mile = 5_280 * feet
+yard = 3 * feet
+
 ## CODATA Physical constants
 
+c = speed_of_light = 299_792_458 * m / s
 
 elementary_charge = plusminus(1.6021766208e-19, 0.0000000098e-19) * C
 h = plusminus(6.626070040e-34, 0.000000081e-34) * (J * s)
+hbar = h / (2 * pi)
 classical_electron_radius = plusminus(2.8179403227e-15, 0.0000000019e-15) * m
 thomson_cross_section = plusminus(0.66524587158e-28, 0.00000000091e-28) * (m**2)
 G = plusminus(6.67408e-11, 0.00031e-11) * (N * m**2 / kg**2)
@@ -315,7 +330,8 @@ deuteron_magnetic_moment = plusminus(0.4330735040e-26, 0.0000000036e-26) * (J/T)
 
 earth_mass = plusminus(5.9722e24, 6.0e20) * kg
 earth_radius = plusminus(6371, 10) * kilo * m
-
+stefan_boltzmann = 2 * pi**5 * boltzmann**4 / (15 * c**2 * h**3)
+solar_constant = plusminus(1.3608, 0.0005) * kilo * watt / m**2
 
 year = data(values=[365, 366], weights=[303, 97]) * day    ##  In the gregorian calendar, the calendar cycles every 400 years.
                                                             ## 303 are 365, 97 are leap years with 366 days.

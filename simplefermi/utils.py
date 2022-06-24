@@ -1,11 +1,11 @@
 
+import re
 import sys
 import numpy as np
 
 from simplefermi.quantities import Quantity
 from simplefermi.library import human_lookup
 from simplefermi.distributions import P
-from simplefermi import utils
 
 
 _BLUE = '\001\x1b[34m\002'
@@ -16,7 +16,7 @@ _RESET = '\001\x1b[0m\002'
 _RED = '\001\x1b[31m\002'
 _GREY = '\001\x1b[90m\002' 
 
-ALPHA = P
+ALPHA = 1 - P
 
 from math import floor, log10
 
@@ -78,7 +78,8 @@ def round_repr(center, left, right, padding=2):
     mag = magnitude(right - left)
     return (repr_mag(center, mag), repr_mag(left, mag), repr_mag(right, mag))
 
-def repr(sorted_values, padding=2):
+def _repr(values, padding=2):
+    sorted_values = list(sorted(values))
     left, right = interval(sorted_values)
     center = median(sorted_values)
     mag = magnitude(right - left)
@@ -140,7 +141,7 @@ def _quantity_repr(q: Quantity) -> str:
     result = f"{mid}"
 
     if rg:
-        # mid, low, high = utils.repr(list(sorted(q.value)))
+        mid, low, high = _repr(q.value)
         result = f"{mid} {_GREEN}({low} to {high}){_RESET}"
 
     result = f"{result} {_BLUE}[{q.dimension}]{_RESET}"
