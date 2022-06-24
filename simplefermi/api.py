@@ -1,8 +1,8 @@
 
-from library import *
-from distributions import *
-import utils
-from quantities import Quantity
+from simplefermi.library import *
+from simplefermi.distributions import *
+import simplefermi.utils
+from simplefermi.quantities import Quantity
 
 
 def mean(q: Quantity) -> Quantity:

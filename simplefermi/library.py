@@ -1,7 +1,9 @@
 
-from dimensions import Dimension, DIMENSIONLESS
-from fractions import Fraction
-from quantities import Quantity
+# from fractions import Fraction
+
+from simplefermi.dimensions import Dimension, DIMENSIONLESS
+from simplefermi.quantities import Quantity
+from simplefermi.distributions import data, plusminus
 
 human = {}
 human_lookup = human.get
@@ -280,7 +282,6 @@ ce = day * ten**-2
 
 ## CODATA Physical constants
 
-from distributions import plusminus
 
 elementary_charge = plusminus(1.6021766208e-19, 0.0000000098e-19) * C
 h = plusminus(6.626070040e-34, 0.000000081e-34) * (J * s)
@@ -315,7 +316,6 @@ deuteron_magnetic_moment = plusminus(0.4330735040e-26, 0.0000000036e-26) * (J/T)
 earth_mass = plusminus(5.9722e24, 6.0e20) * kg
 earth_radius = plusminus(6371, 10) * kilo * m
 
-from distributions import data
 
 year = data(values=[365, 366], weights=[303, 97]) * day    ##  In the gregorian calendar, the calendar cycles every 400 years.
                                                             ## 303 are 365, 97 are leap years with 366 days.

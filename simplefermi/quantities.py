@@ -3,8 +3,9 @@
 import operator
 import functools
 import numpy as np
-import dimensions
 import numbers
+
+from simplefermi import dimensions
 
 
 @functools.total_ordering

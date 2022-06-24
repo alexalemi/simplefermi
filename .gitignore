@@ -3,3 +3,4 @@ Pipfile.lock
 *.pyc
 Fermi.egg-info
 dist/
+build/

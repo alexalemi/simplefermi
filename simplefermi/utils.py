@@ -1,12 +1,12 @@
 
 import sys
-
-from quantities import Quantity
-from library import human_lookup
-from distributions import P
-import utils
-
 import numpy as np
+
+from simplefermi.quantities import Quantity
+from simplefermi.library import human_lookup
+from simplefermi.distributions import P
+from simplefermi import utils
+
 
 _BLUE = '\001\x1b[34m\002'
 _GREEN = '\001\x1b[32m\002'
