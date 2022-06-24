@@ -286,7 +286,8 @@ elementary_charge = plusminus(1.6021766208e-19, 0.0000000098e-19) * C
 h = plusminus(6.626070040e-34, 0.000000081e-34) * (J * s)
 classical_electron_radius = plusminus(2.8179403227e-15, 0.0000000019e-15) * m
 thomson_cross_section = plusminus(0.66524587158e-28, 0.00000000091e-28) * (m**2)
-G = plusminus(6.67408e-11, 0.00031e-11) * (N * m**2 / kg*2)
+G = plusminus(6.67408e-11, 0.00031e-11) * (N * m**2 / kg**2)
+standard_gravity = 9.80662 * m / s**2
 atomic_mass_unit = plusminus(1.660539040e-27, 0.000000020e-27) * kg
 avogadro = plusminus(6.022140857e23, 0.000000074e23) * (mol**-1)
 gas_constant = plusminus(8.3144598, 0.0000048) * (J / (mol * K))
@@ -308,7 +309,11 @@ proton_magnetic_moment = plusminus(1.4106067873e-26, 0.0000000097e-26) * (J/T)
 electron_magnetic_moment = plusminus(-928.4764520e-26, 0.0000057e-26) * (J/T)
 neutron_magnetic_moment = plusminus(-0.96623650e-26, 0.00000023e-26) * (J/T)
 deuteron_magnetic_moment = plusminus(0.4330735040e-26, 0.0000000036e-26) * (J/T)
+
+## DATA
+
 earth_mass = plusminus(5.9722e24, 6.0e20) * kg
+earth_radius = plusminus(6371, 10) * kilo * m
 
 from distributions import data
 
