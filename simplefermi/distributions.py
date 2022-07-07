@@ -6,10 +6,13 @@ from functools import partial
 N = 200_000
 P = 0.6826894
 
+
 def plusminus(mean=0.0, sig=1.0, n=N):
     return mean + sig * np.random.randn(n)
 
+
 epsilon = partial(plusminus, mean=0.0, sig=1.0)
+
 
 def uniform(left, right, n=N):
     return left + (right - left) * np.random.uniform(n)
@@ -29,7 +32,7 @@ def logstudent(a, b, df=2.0, p=P, n=N):
     return np.exp(mu + sig * np.random.standard_t(df, size=n))
 
 
-def lognormal(a, b, p=P, n=N): 
+def lognormal(a, b, p=P, n=N):
     mu = np.log(np.sqrt(b * a))
     factor = scipy.stats.norm.ppf(0.5 * (1-p))
     sig = np.log(np.sqrt(b/a))/factor
@@ -53,5 +56,3 @@ def data(values, weights=None, n=N):
         weights = np.asarray(weights)
         weights = weights / weights.sum()
     return np.random.choice(values, size=N, replace=True, p=weights)
-
-

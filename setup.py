@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(
-        name="Fermi",
+        name="SimpleFermi",
         version="0.0.1",
         packages=["simplefermi",],
         license="MIT",
