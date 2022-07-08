@@ -6,7 +6,7 @@ import pint
 
 from simplefermi.distributions import data, plusminus
 
-ureg = pint.UnitRegistry()
+ureg = pint.UnitRegistry(auto_reduce_dimensions=True)
 Q = ureg.Quantity
 
 def make(s):

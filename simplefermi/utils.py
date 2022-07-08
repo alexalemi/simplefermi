@@ -3,7 +3,6 @@ from math import floor, log10
 import re
 import sys
 import numpy as np
-from termcolor import colored
 
 
 P = 0.6826894
