@@ -5,7 +5,7 @@ import functools
 import numpy as np
 import numbers
 
-from simplefermi import dimensions
+from simplefermi.archive import dimensions
 
 
 @functools.total_ordering

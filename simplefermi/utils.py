@@ -5,11 +5,8 @@ import sys
 import numpy as np
 from termcolor import colored
 
-from simplefermi.quantities import Quantity
-from simplefermi.library import human_lookup
-from simplefermi.distributions import P
 
-
+P = 0.6826894
 ALPHA = 1 - P
 
 
@@ -78,7 +75,7 @@ def round_repr(center, left, right, padding=2):
     return (repr_mag(center, mag), repr_mag(left, mag), repr_mag(right, mag))
 
 
-def _repr(values, padding=2):
+def repr(values, padding=2):
     sorted_values = list(sorted(values))
     left, right = interval(sorted_values)
     center = median(sorted_values)
@@ -134,24 +131,3 @@ def sigfig_resolution(number_string):
     groups = [(x or '') for x in groups]
     return float(''.join(groups))
 
-
-def _quantity_repr(q: Quantity) -> str:
-    low, mid, high = np.quantile(q.value, [(1-P)/2, 0.5, 1-(1-P)/2])
-    rg = high - low
-
-    result = f'{mid}'
-
-    if rg:
-        mid, low, high = _repr(q.value)
-        result = result + colored(f' ({low} to {high})', 'green')
-
-    result = result + colored(f' [{q.dimension}]', 'blue')
-
-    human_name = human_lookup(q.dimension)
-    if human_name:
-        result = result + colored(f' {{{human_name}}}', 'yellow')
-
-    return result
-
-
-Quantity.__repr__ = _quantity_repr

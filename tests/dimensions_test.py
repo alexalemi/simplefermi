@@ -12,7 +12,7 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from simplefermi import utils as u
-from simplefermi import dimensions as d
+from simplefermi.archive import dimensions as d
 
 class DimensionsTest(parameterized.TestCase):
 
