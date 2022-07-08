@@ -1,8 +1,13 @@
-
-# from fractions import Fraction
+"""Defines the basic quantities and units and things that are unique to this package."""
 
 import math
+import sys
+
+_this_module = sys.modules[__name__]
+
+from astropy import constants
 import pint
+
 
 from simplefermi.distributions import data, plusminus
 
@@ -100,21 +105,36 @@ store(henry, 'inductance')
 store(tesla, 'magnetic flux density')
 store(J/K, 'heat capacity')
 store(J*kg**-1*K**-1, 'specific heat capacity')
+lumen = ureg.lumen
 
+## populate from pint
 
-## Numbers
+for name in ureg:
+    if name in ureg:
+        setattr(_this_module, name, ureg[name])
+
+## Mathematical constants
 
 googol = ten**100
 pi = math.pi
 e = math.e
 tau = math.tau
 
+# New 2019 SI base units
+
+h = Planck = planck = plancks_constant = 6.626_070_15e-34 * (J * s)
+elementary_charge = 1.602_176_634e-19 * C
+k = boltzmann = boltzmann_constant = boltzmanns_constant = 1.380_649e-23 * (J / K)
+NA = avogadro = 6.022_140_76e23 * (mol**-1)
+c = speed_of_light = 299_792_458 * (m / s)
+vcs = 9_192_631_770 * (s**-1)
+kcd = 683 * (lumen / watt)
+
 # CODATA Physical constants
 
-c = speed_of_light = 299_792_458 * m / s
-
-elementary_charge = plusminus(1.6021766208e-19, 0.0000000098e-19) * C
-h = plusminus(6.626070040e-34, 0.000000081e-34) * (J * s)
+# c = speed_of_light = constants.c * m / s
+# elementary_charge = plusminus(1.6021766208e-19, 0.0000000098e-19) * C
+# h = plusminus(6.626070040e-34, 0.000000081e-34) * (J * s)
 hbar = h / (2 * pi)
 classical_electron_radius = plusminus(2.8179403227e-15, 0.0000000019e-15) * m
 thomson_cross_section = plusminus(
@@ -122,18 +142,11 @@ thomson_cross_section = plusminus(
 G = plusminus(6.67408e-11, 0.00031e-11) * (N * m**2 / kg**2)
 standard_gravity = 9.80662 * m / s**2
 atomic_mass_unit = plusminus(1.660539040e-27, 0.000000020e-27) * kg
-avogadro = plusminus(6.022140857e23, 0.000000074e23) * (mol**-1)
-gas_constant = plusminus(8.3144598, 0.0000048) * (J / (mol * K))
-boltzmann = plusminus(1.38064852e-23, 0.00000079e-23) * J/K
+# avogadro = plusminus(6.022140857e23, 0.000000074e23) * (mol**-1)
+# gas_constant = plusminus(8.3144598, 0.0000048) * (J / (mol * K))
+# boltzmann = plusminus(1.38064852e-23, 0.00000079e-23) * J/K
 wien_displacement = plusminus(2.8977729e-3, 0.0000017e-3) * (m * K)
-electron_mass = plusminus(9.10938356e-31, 0.00000011e-31) * kg
-proton_mass = plusminus(1.672621898e-27, 0.000000021e-27) * kg
-neutron_mass = plusminus(1.674927471e-27, 0.000000021e-27) * kg
-muon_mass = plusminus(1.883531594e-28, 0.000000048e-28) * kg
-deuteron_mass = plusminus(3.343583719e-27, 0.000000041e-27) * kg
-alpha_particle_mass = plusminus(6.644657230e-27, 0.000000082e-27) * kg
-tau_mass = plusminus(3.16747e-27, 0.00029e-27) * kg
-alpha = plusminus(7.2973525664e-3, 0.0000000017e-3)
+# alpha = plusminus(7.2973525664e-3, 0.0000000017e-3) * dimensionless
 Rydberg_constant = plusminus(10973731.568508, 0.000065) * (m**-1)
 bohr_radius = plusminus(0.52917721067e-10, 0.00000000012e-10) * m
 planck_temperature = plusminus(1.416808e32, 0.000033e32) * K
@@ -144,11 +157,34 @@ neutron_magnetic_moment = plusminus(-0.96623650e-26, 0.00000023e-26) * (J/T)
 deuteron_magnetic_moment = plusminus(
     0.4330735040e-26, 0.0000000036e-26) * (J/T)
 
+## Derived values
+
+# mu0 = 2 * alpha * h / (elementary_charge**2 * c)
+# epsilon0 = 1/(mu0 * c**2)
+R = gas_constant = avogadro * boltzmann
+
+## Constants from astropy
+def convert_constant(const):
+    return plusminus(const.value, const.uncertainty) * ureg(const.unit.to_string("ogip"))
+
+ASTROPY_CONSTANTS = (
+    "G", "R", "Ryd", "a0", "atm", "b_wien", 
+    "g0", "m_e", "m_n", "m_p", "alpha", "muB",
+    "mu0", "eps0", "sigma_T", "sigma_sb", "u", 
+    "GM_earth", "GM_jup", "GM_sun", "L_bol0", "L_sun", 
+    "M_earth", "M_jup", "M_sun", 
+    "R_earth", "R_jup", "R_sun", 
+    "au", "kpc", "pc",
+)
+
+for const in ASTROPY_CONSTANTS:
+    setattr(_this_module, const, convert_constant(getattr(constants, const)))
+
 # DATA
 
 earth_mass = plusminus(5.9722e24, 6.0e20) * kg
 earth_radius = plusminus(6371, 10) * kilo * m
-stefan_boltzmann = 2 * pi**5 * boltzmann**4 / (15 * c**2 * h**3)
+sigma = stefan_boltzmann = 2 * pi**5 * boltzmann**4 / (15 * c**2 * h**3)
 solar_constant = plusminus(1.3608, 0.0005) * kilo * watt / m**2
 
 # In the gregorian calendar, the calendar cycles every 400 years.

@@ -12,6 +12,7 @@ One = library.dimensionless
 Dimensionless = library.dimensionless
 
 P = utils.P
+u = library.ureg
 
 def _quantity_repr(q: pint.Quantity) -> str:
     low, mid, high = np.quantile(q.magnitude, [(1-P)/2, 0.5, 1-(1-P)/2])

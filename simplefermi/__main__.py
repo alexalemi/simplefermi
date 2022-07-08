@@ -9,9 +9,4 @@ from simplefermi.library import *
 from simplefermi.distributions import *
 from simplefermi.api import *
 
-u = ureg
-
-
-# IPython.start_ipython(argv=[])
-
 IPython.embed(colors="neutral")
