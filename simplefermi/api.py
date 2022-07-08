@@ -25,4 +25,25 @@ def percent(val, error):
     return plusminus(val, error * val)
 
 
+def accuracy(q: Quantity) -> float:
+    left, mid, right = np.quantile(q.value, [(1-P)/2, 1/2, 1-(1-P)/2])
+    return (right - left) / 2 / mid
+
+def triangular(center, width, right=None):
+    u = uniform(0, 1)
+    c = center
+    if right is None:
+        a = c - width
+        b = c + width 
+    else:
+        a = width
+        b = right
+    f = (c - a)/(b - a)
+    return np.where(
+            u < f, 
+            a + np.sqrt(u * (b - a) * (c - a)), 
+            b - np.sqrt((1-u) * (b - a) * (b - c)))
+
+
+
 One = Q(1, DIMENSIONLESS)

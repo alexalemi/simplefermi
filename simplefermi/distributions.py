@@ -15,7 +15,7 @@ epsilon = partial(plusminus, mean=0.0, sig=1.0)
 
 
 def uniform(left, right, n=N):
-    return left + (right - left) * np.random.uniform(n)
+    return left + (right - left) * np.random.uniform(size=n)
 
 
 def normal(a, b, p=P, n=N):

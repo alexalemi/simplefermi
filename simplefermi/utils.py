@@ -154,7 +154,8 @@ def _quantity_repr(q: Quantity) -> str:
 
     result = f'{result} {_BLUE}[{q.dimension}]{_RESET}'
 
-    if human_name := human_lookup(q.dimension):
+    human_name = human_lookup(q.dimension)
+    if human_name:
         result = f'{result} {_YELLOW}{{{human_name}}}{_RESET}'
 
     return result
