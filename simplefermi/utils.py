@@ -3,19 +3,12 @@ from math import floor, log10
 import re
 import sys
 import numpy as np
+from termcolor import colored
 
 from simplefermi.quantities import Quantity
 from simplefermi.library import human_lookup
 from simplefermi.distributions import P
 
-
-_BLUE = '\001\x1b[34m\002'
-_GREEN = '\001\x1b[32m\002'
-_YELLOW = '\001\x1b[33m\002'
-_CYAN = '\001\x1b[36m\002'
-_RESET = '\001\x1b[0m\002'
-_RED = '\001\x1b[31m\002'
-_GREY = '\001\x1b[90m\002'
 
 ALPHA = 1 - P
 
@@ -150,13 +143,13 @@ def _quantity_repr(q: Quantity) -> str:
 
     if rg:
         mid, low, high = _repr(q.value)
-        result = f'{mid} {_GREEN}({low} to {high}){_RESET}'
+        result = result + colored(f' ({low} to {high})', 'green')
 
-    result = f'{result} {_BLUE}[{q.dimension}]{_RESET}'
+    result = result + colored(f' [{q.dimension}]', 'blue')
 
     human_name = human_lookup(q.dimension)
     if human_name:
-        result = f'{result} {_YELLOW}{{{human_name}}}{_RESET}'
+        result = result + colored(f' {{{human_name}}}', 'yellow')
 
     return result
 
