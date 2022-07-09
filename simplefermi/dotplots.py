@@ -1,6 +1,8 @@
 
 import math
+import numpy as np
 from matplotlib import rc, patches
+import matplotlib.pyplot as plt
 
 
 def smoothing(v, thres):

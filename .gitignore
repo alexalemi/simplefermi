@@ -5,3 +5,4 @@ Fermi.egg-info
 SimpleFermi.egg-info
 dist/
 build/
+notebooks/.ipynb_checkpoints/

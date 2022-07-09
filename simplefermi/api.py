@@ -7,6 +7,7 @@ import numpy as np
 from simplefermi import library
 from simplefermi import distributions
 from simplefermi import utils
+from simplefermi import dotplots
 
 One = library.dimensionless
 Dimensionless = library.dimensionless
@@ -32,4 +33,6 @@ def _quantity_repr(q: pint.Quantity) -> str:
 
     return result
 
+library.ureg._repr_html_ = None
+library.ureg._repr_latex_ = None
 library.ureg.Quantity.__repr__ = _quantity_repr

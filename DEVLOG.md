@@ -2,9 +2,16 @@
 
 I'm trying to build a minimalistic implementation of fermi.
 
+## TODO
+
+ * dotplots
+ * working in colab
+
 ## 2022-07-08
 
 So, I realized today that I could just use one of the myriad of existing unit libraries in python and just sort of add on top of that.  It seems there are lots of options including `astropy.units` which may be the most popular, `unyt` which is a relatively new one and `pint` which has a history and I think does a lot of the things I would want in a unit package.  I'm leaning towards using `pint`.  Though one thing to consider is that it seems as though `astropy.units` is on the default installation path for colab.
+
+So, I switched things over to use `pint` and also tried to redefine the units to be consistent with the redefinition of SI in 2019.  I also populated the library namespace with a bunch of things from `pint` as well as the constants in `astropy.constants`.  I also created a `__main__` module that fills the default namespace of an ipython session so we can use this as a binary.
 
 ## 2022-07-06
 
