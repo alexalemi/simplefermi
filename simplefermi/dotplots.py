@@ -134,7 +134,7 @@ def placedots(fig, ax, array, width):
     ax.set_ylim(padinterval((0, maxheight + width/2.0)))
 
 
-def dotplot(arr, quantiles=50, log=True, width=None):
+def dotplot(arr, quantiles=50, log=False, width=None):
     n = quantiles
     qs = np.arange(0.5/n, 1, 1/n)
     if log:

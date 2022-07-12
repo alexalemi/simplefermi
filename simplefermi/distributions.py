@@ -66,10 +66,15 @@ def against(a, b, n=N):
 
 
 def data(values, weights=None, n=N):
+    """Bootstraps a finite dataset."""
     if weights is not None:
         weights = np.asarray(weights)
         weights = weights / weights.sum()
     return np.random.choice(values, size=N, replace=True, p=weights)
+
+
+def normalfit(values, n=N):
+    return plusminus(np.mean(values), np.std(values), n=n)
 
 
 def triangular(center, width, right=None, n=N):
@@ -88,9 +93,11 @@ def triangular(center, width, right=None, n=N):
             a + np.sqrt(u * (b - a) * (c - a)), 
             b - np.sqrt((1-u) * (b - a) * (b - c)))
     
+
 def gamma(a, n=N):
     """Give gamma distributed random numbers."""
     return np.random.gamma(shape=a + 1, size=n)
+
 
 def sigfig(s):
     """Given a number as a string, generate the uniform distribution that accounts for the sigfigs."""
