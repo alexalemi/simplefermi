@@ -2,6 +2,10 @@
 
 I'm trying to build a minimalistic implementation of fermi.
 
+## TODO
+
+	* tree-sitter parser and evaluator.
+
 ## 2023-07-06
 
 Worked on finishing out the library.  I rediscovered that it was reasonably
