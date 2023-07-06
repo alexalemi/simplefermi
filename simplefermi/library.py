@@ -5,29 +5,8 @@ import sys
 
 _this_module = sys.modules[__name__]
 
-import pint
-
-
+from simplefermi.core import ureg, human, make, store, human_lookup
 from simplefermi.distributions import data, plusminus
-
-ureg = pint.UnitRegistry(auto_reduce_dimensions=True)
-
-Quantity = ureg.Quantity
-Q = Quantity
-
-def make(s):
-    ureg.define(f"{s} = [{s}]")
-    return ureg(f"{s}").units
-
-## Human
-
-human = {}
-
-def human_lookup(q: pint.Unit) -> str:
-    return human.get(q.dimensionality)
-
-def store(quantity: pint.Unit, name):
-    human[quantity.dimensionality] = name
 
 
 m = ureg.m
