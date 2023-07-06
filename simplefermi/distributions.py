@@ -120,4 +120,4 @@ def gamma(a, units=None, n=N):
 
 def sigfig(s, units=None):
     """Given a number as a string, generate the uniform distribution that accounts for the sigfigs."""
-    return unitize(plusminus(float(s), 0.5 * utils.sigfig_resolution(s)), units)
+    return _unitize(plusminus(float(s), 0.5 * utils.sigfig_resolution(s)), units)
