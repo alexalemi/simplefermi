@@ -61,6 +61,7 @@ def _repr_pretty_(p: pint.Quantity, printer, cycle: bool):
 core.ureg.Quantity._repr_html_ = None
 core.ureg.Quantity._repr_latex_ = None
 core.ureg.Quantity.__repr__ = plain_quantity_repr
+core.ureg.Quantity._repr_html_ = quantity_repr
 core.ureg.Quantity._repr_pretty_ = _repr_pretty_
 
 
