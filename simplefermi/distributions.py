@@ -1,8 +1,9 @@
 """Distributions are simple utility functions to generate random samples of various shapes."""
 
 import numpy as np
-import scipy.stats
+from pyerf import pyerf
 
+from simplefermi import Q
 from simplefermi import utils
 
 from functools import partial
@@ -11,10 +12,9 @@ N = 200_000
 P = utils.P 
 
 
-def plusminus(mean=0.0, sig=1.0, n=N):
+def plusminus(units=None, mean=0.0, sig=1.0, n=N):
     """Generates normally distributed random numbers with the given mean and standard deviation."""
-    return mean + sig * np.random.randn(n)
-
+    vals = mean + sig * np.random.randn(n)
 
 epsilon = partial(plusminus, mean=0.0, sig=1.0)
 
@@ -28,11 +28,14 @@ def rectangular(center, width, n=N):
     """A rectangular distribution with the given center and width."""
     return center +  width * (2 * np.random.uniform(size=n) - 1)
 
+def _factor(x):
+    return math.sqrt(2) * pyerf.erfinv(2 * x - 1)
+
 
 def normal(a, b, p=P, n=N):
     """A normal distribution with the given left and right endpoints."""
     mu = 0.5 * (a + b)
-    factor = scipy.stats.norm.ppf(0.5 * (1-p))
+    factor = -_factor(0.5 * (1-p))
     sig = 0.5 * (b-a) / factor
     return mu + sig * np.random.randn(n)
 
@@ -48,9 +51,19 @@ def logstudent(a, b, df=2.0, p=P, n=N):
 def lognormal(a, b, p=P, n=N):
     """A lognormal distribution with the given endpoints."""
     mu = np.log(np.sqrt(b * a))
-    factor = scipy.stats.norm.ppf(0.5 * (1-p))
+    factor = -_factor(0.5 * (1-p))
     sig = np.log(np.sqrt(b/a))/factor
     return np.exp(mu + sig * np.random.randn(n))
+
+
+def percent(percentage, p=P, n=N):
+    """Twiddles a result to within the given percentage. A times_divide type distribution."""
+    top = 1.0 + percentage/100.0
+    return lognormal(1./top, top, p=p, n=N)
+
+def db(x=1.0, p=P, n=N):
+    """Gives a value with a certain uncertainty in decibels. ten decibels is an order of magnitude, 3 is a factor of 2."""
+    return lognormal(10**(-x/10.0), 10**(x/10.0), p=p, n=n)
 
 
 def beta(a, b, n=N):

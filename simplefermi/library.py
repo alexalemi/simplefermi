@@ -5,14 +5,15 @@ import sys
 
 _this_module = sys.modules[__name__]
 
-from astropy import constants
 import pint
 
 
 from simplefermi.distributions import data, plusminus
 
 ureg = pint.UnitRegistry(auto_reduce_dimensions=True)
-Q = ureg.Quantity
+
+Quantity = ureg.Quantity
+Q = Quantity
 
 def make(s):
     ureg.define(f"{s} = [{s}]")
@@ -38,6 +39,7 @@ mol = ureg.mol
 bit = ureg.bit
 cd = ureg.cd
 dimensionless = ureg.dimensionless
+uno = 1.0 * dimensionless
 J = ureg.J
 coulomb = ureg.coulomb
 C = coulomb
@@ -163,22 +165,6 @@ deuteron_magnetic_moment = plusminus(
 # epsilon0 = 1/(mu0 * c**2)
 R = gas_constant = avogadro * boltzmann
 
-## Constants from astropy
-def convert_constant(const):
-    return plusminus(const.value, const.uncertainty) * ureg(const.unit.to_string("ogip"))
-
-ASTROPY_CONSTANTS = (
-    "G", "R", "Ryd", "a0", "atm", "b_wien", 
-    "g0", "m_e", "m_n", "m_p", "alpha", "muB",
-    "mu0", "eps0", "sigma_T", "sigma_sb", "u", 
-    "GM_earth", "GM_jup", "GM_sun", "L_bol0", "L_sun", 
-    "M_earth", "M_jup", "M_sun", 
-    "R_earth", "R_jup", "R_sun", 
-    "au", "kpc", "pc",
-)
-
-for const in ASTROPY_CONSTANTS:
-    setattr(_this_module, const, convert_constant(getattr(constants, const)))
 
 # DATA
 

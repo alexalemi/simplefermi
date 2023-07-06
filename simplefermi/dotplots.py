@@ -114,7 +114,7 @@ def padinterval(interval, f=0.05):
     return left - f * range, right + f * range
 
 
-def placedots(fig, ax, array, width):
+def placedots(fig, ax, array, width, **circle_kwargs):
     last = None
     height = 0.5 * width
     artists = []
@@ -128,13 +128,13 @@ def placedots(fig, ax, array, width):
             height = 0.5 * width
             last = value
         # circle(fig, ax, (value, height), radius=width/2.0)
-        circle = plt.Circle((value, height), radius=width/2.0)
+        circle = plt.Circle((value, height), radius=width/2.0, linewidth=2, edgecolor='k', **circle_kwargs)
         ax.add_artist(circle)
     ax.set_xlim(padinterval((min(array) - width/2.0, max(array) + width/2.0)))
     ax.set_ylim(padinterval((0, maxheight + width/2.0)))
 
 
-def dotplot(arr, quantiles=50, log=False, width=None):
+def dotplot(arr, quantiles=20, log=False, width=None, **circle_kwargs):
     n = quantiles
     qs = np.arange(0.5/n, 1, 1/n)
     if log:
@@ -143,11 +143,12 @@ def dotplot(arr, quantiles=50, log=False, width=None):
         quantiles = np.quantile(arr, qs)
 
     fig, axs = plt.subplots()
+    axs.set_yticks([])
     axs.set_aspect('equal')
 
     if width is None:
         width = 5/2 * (quantiles.max() - quantiles.min())/n
     dotlocs = dotbin(quantiles, width, False)
-    placedots(fig, axs, dotlocs, width)
+    placedots(fig, axs, dotlocs, width, **circle_kwargs)
 
     return fig, axs
