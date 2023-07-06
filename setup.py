@@ -13,6 +13,7 @@ setup(
             'ipython',
             'numpy',
             'pillow',
+            'termcolor',
         ],
         license="MIT",
         long_description=open('README.md').read(),
