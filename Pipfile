@@ -10,6 +10,7 @@ pint = "*"
 pyerf = "*"
 ipython = "*"
 termcolor = "*"
+pillow = "*"
 
 [dev-packages]
 

@@ -12,6 +12,7 @@ setup(
             'matplotlib',
             'ipython',
             'numpy',
+            'pillow',
         ],
         license="MIT",
         long_description=open('README.md').read(),
