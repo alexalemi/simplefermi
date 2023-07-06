@@ -18,7 +18,7 @@ Dimensionless = library.dimensionless
 P = utils.P
 u = core.ureg
 
-def quantity_repr(q: pint.Quantity) -> str:
+def repr(q: pint.Quantity) -> str:
     low, mid, high = np.quantile(q.magnitude, [(1-P)/2, 0.5, 1-(1-P)/2])
     rg = high - low
 
@@ -36,7 +36,7 @@ def quantity_repr(q: pint.Quantity) -> str:
 
     return result
 
-def plain_quantity_repr(q: pint.Quantity) -> str:
+def plain_repr(q: pint.Quantity) -> str:
     low, mid, high = np.quantile(q.magnitude, [(1-P)/2, 0.5, 1-(1-P)/2])
     rg = high - low
 
@@ -55,13 +55,12 @@ def plain_quantity_repr(q: pint.Quantity) -> str:
     return result
 
 def _repr_pretty_(p: pint.Quantity, printer, cycle: bool):
-    printer.text(quantity_repr(p))
+    printer.text(repr(p))
 
 
 core.ureg.Quantity._repr_html_ = None
 core.ureg.Quantity._repr_latex_ = None
-core.ureg.Quantity.__repr__ = plain_quantity_repr
-core.ureg.Quantity._repr_html_ = quantity_repr
+core.ureg.Quantity.__repr__ = plain_repr
 core.ureg.Quantity._repr_pretty_ = _repr_pretty_
 
 
@@ -105,4 +104,4 @@ def _plotter(q: core.ureg.Quantity):
         return fig._repr_html_()
 
 
-core.ureg.Quantity._repr_html_ = _plotter
+core.ureg.Quantity._repr_png_ = _plotter
