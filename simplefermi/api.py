@@ -28,7 +28,7 @@ def quantity_repr(q: pint.Quantity) -> str:
         mid, low, high = utils.repr(q.magnitude)
         result = f'{mid}' + colored(f' ({low} to {high})', 'green')
 
-    result = result + colored(f' [{q.units:H}]', 'blue')
+    result = result + colored(f' [{q.units:~P}]', 'blue')
 
     human_name = core.human_lookup(q.units)
     if human_name:
@@ -46,7 +46,7 @@ def plain_quantity_repr(q: pint.Quantity) -> str:
         mid, low, high = utils.repr(q.magnitude)
         result = f'{mid}' + f' ({low} to {high})'
 
-    result = result + f' [{q.units}]'
+    result = result + f' [{q.units:~}]'
 
     human_name = core.human_lookup(q.units)
     if human_name:
