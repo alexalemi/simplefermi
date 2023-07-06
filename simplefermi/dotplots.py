@@ -134,7 +134,7 @@ def placedots(fig, ax, array, width, **circle_kwargs):
     ax.set_ylim(padinterval((0, maxheight + width/2.0)))
 
 
-def dotplot(arr, quantiles=20, log=False, width=None, **circle_kwargs):
+def dotplot(arr, quantiles=20, log=False, width=None, figsize=(3,2), **circle_kwargs):
     n = quantiles
     qs = np.arange(0.5/n, 1, 1/n)
     if log:
@@ -142,7 +142,7 @@ def dotplot(arr, quantiles=20, log=False, width=None, **circle_kwargs):
     else:
         quantiles = np.quantile(arr, qs)
 
-    fig, axs = plt.subplots()
+    fig, axs = plt.subplots(figsize=figsize)
     axs.set_yticks([])
     axs.set_aspect('equal')
 

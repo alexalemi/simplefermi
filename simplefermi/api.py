@@ -5,6 +5,7 @@ from io import BytesIO
 from termcolor import colored
 import numpy as np
 import matplotlib.units
+from PIL import Image
 
 from simplefermi import core
 from simplefermi import library
@@ -88,7 +89,7 @@ matplotlib.units.registry[core.ureg.Quantity] = QuantityConverter()
 def dotplot(q, quantiles=20, log=False, width=None, **circle_kwargs):
     if isinstance(q, core.ureg.Quantity):
         fig, axs = dotplots.dotplot(q.magnitude, quantiles, log, width, **circle_kwargs)
-        label = str(q.units)
+        label = f'{q.units:~P}'
         human_name = core.human_lookup(q.units)
         if human_name:
             label = label + f' {{{human_name}}}'
@@ -99,9 +100,22 @@ def dotplot(q, quantiles=20, log=False, width=None, **circle_kwargs):
 
 
 def _plotter(q: core.ureg.Quantity):
+    with BytesIO() as b, matplotlib.pyplot.ioff():
+        fig, axs = dotplot(q)
+        fig.tight_layout()
+        fig.savefig(b, format='png')
+        matplotlib.pyplot.close(fig)
+        return b.getvalue()
+
+def plot(q: core.ureg.Quantity):
+    b = BytesIO()
     with matplotlib.pyplot.ioff():
         fig, axs = dotplot(q)
-        return fig._repr_html_()
+        fig.tight_layout()
+        fig.savefig(b, format='png')
+        matplotlib.pyplot.close(fig)
+        return Image.open(b)
 
 
+core.ureg.Quantity.plot = plot
 core.ureg.Quantity._repr_png_ = _plotter
