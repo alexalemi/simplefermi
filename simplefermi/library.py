@@ -92,7 +92,7 @@ lumen = ureg.lumen
 
 for name in ureg:
     if name in ureg:
-        setattr(_this_module, name, ureg[name])
+        setattr(_this_module, name, ureg(name))
 
 ## Mathematical constants
 
