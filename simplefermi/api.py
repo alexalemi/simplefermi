@@ -6,6 +6,7 @@ from termcolor import colored
 import numpy as np
 import matplotlib.units
 
+from simplefermi import core
 from simplefermi import library
 from simplefermi import distributions
 from simplefermi import utils
@@ -15,7 +16,7 @@ One = library.dimensionless
 Dimensionless = library.dimensionless
 
 P = utils.P
-u = library.ureg
+u = core.ureg
 
 def quantity_repr(q: pint.Quantity) -> str:
     low, mid, high = np.quantile(q.magnitude, [(1-P)/2, 0.5, 1-(1-P)/2])
@@ -29,7 +30,7 @@ def quantity_repr(q: pint.Quantity) -> str:
 
     result = result + colored(f' [{q.units}]', 'blue')
 
-    human_name = library.human_lookup(q.units)
+    human_name = core.human_lookup(q.units)
     if human_name:
         result = result + colored(f' {{{human_name}}}', 'yellow')
 
@@ -47,7 +48,7 @@ def plain_quantity_repr(q: pint.Quantity) -> str:
 
     result = result + f' [{q.units}]'
 
-    human_name = library.human_lookup(q.units)
+    human_name = core.human_lookup(q.units)
     if human_name:
         result = result + f' {{{human_name}}}'
 
@@ -57,10 +58,10 @@ def _repr_pretty_(p: pint.Quantity, printer, cycle: bool):
     printer.text(quantity_repr(p))
 
 
-library.ureg.Quantity._repr_html_ = None
-library.ureg.Quantity._repr_latex_ = None
-library.ureg.Quantity.__repr__ = plain_quantity_repr
-library.ureg.Quantity._repr_pretty_ = _repr_pretty_
+core.ureg.Quantity._repr_html_ = None
+core.ureg.Quantity._repr_latex_ = None
+core.ureg.Quantity.__repr__ = plain_quantity_repr
+core.ureg.Quantity._repr_pretty_ = _repr_pretty_
 
 
 class QuantityConverter(matplotlib.units.ConversionInterface):
@@ -81,14 +82,14 @@ class QuantityConverter(matplotlib.units.ConversionInterface):
         "Return the default unit for x or None."
         return x.to_base_units().units
 
-matplotlib.units.registry[library.ureg.Quantity] = QuantityConverter()
+matplotlib.units.registry[core.ureg.Quantity] = QuantityConverter()
 
 
 def dotplot(q, quantiles=20, log=False, width=None, **circle_kwargs):
-    if isinstance(q, library.ureg.Quantity):
+    if isinstance(q, core.ureg.Quantity):
         fig, axs = dotplots.dotplot(q.magnitude, quantiles, log, width, **circle_kwargs)
         label = str(q.units)
-        human_name = library.human_lookup(q.units)
+        human_name = core.human_lookup(q.units)
         if human_name:
             label = label + f' {{{human_name}}}'
         axs.set_xlabel(label)
@@ -97,10 +98,10 @@ def dotplot(q, quantiles=20, log=False, width=None, **circle_kwargs):
     return fig, axs
 
 
-def _plotter(q: library.ureg.Quantity):
+def _plotter(q: core.ureg.Quantity):
     with matplotlib.pyplot.ioff():
         fig, axs = dotplot(q)
         return fig._repr_html_()
 
 
-library.ureg.Quantity._repr_html_ = _plotter
+core.ureg.Quantity._repr_html_ = _plotter
