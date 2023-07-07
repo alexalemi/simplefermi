@@ -74,20 +74,20 @@ The basic datatype in `simplefermi` is a `Quantity` which represents both some v
 
 For percentages, there are some helpers:
 
-  * `outof(part, whole)` - generates a beta distribution with the observed counts, 7 out of 10 and 70 out of 100 have the same mean but different concentrations.
-	* `against(part, other)` - different phrasing, its often easier to estimate two opposing population sizes than it is to estimate fractions. 
+ * `outof(part, whole)` - generates a beta distribution with the observed counts, 7 out of 10 and 70 out of 100 have the same mean but different concentrations.
+ * `against(part, other)` - different phrasing, its often easier to estimate two opposing population sizes than it is to estimate fractions. 
 
 You can also twiddle existing numbers:
 
-  * `sigfig(string)` - will generate a uniform distribution consistent with the given value, interpreting it in terms of [sigfigs](https://en.wikipedia.org/wiki/Significant_figures), i.e. `sigfig('1.0')` is between 0.95 and 1.05 while `sigfig(1.)` is between 0.5 and 1.5.
-	* `percent(percentage)` - will introduce some percentage error in an estimate (multiplicatively), if you know how things vary.
-	* `db(decibels)` - introduces a multiplicative variation in terms of the decibels of relative error.
+ * `sigfig(string)` - will generate a uniform distribution consistent with the given value, interpreting it in terms of [sigfigs](https://en.wikipedia.org/wiki/Significant_figures), i.e. `sigfig('1.0')` is between 0.95 and 1.05 while `sigfig(1.)` is between 0.5 and 1.5.
+ * `percent(percentage)` - will introduce some percentage error in an estimate (multiplicatively), if you know how things vary.
+ * `db(decibels)` - introduces a multiplicative variation in terms of the decibels of relative error.
 
 And you can use data to formulate distributions:
 
-  * `data(values, weights=None)` - does bootstrap sampling from a finite set of values, use this for empirical measurements, optional weights give the weighting values.
-	* `mixture(*sources, weights=None)` - generates a mixture distribution with the given weights.
-	* `normalfit(values)` - fits a normal distribution to the given values, prefer to use `data`, but this has its uses.
+ * `data(values, weights=None)` - does bootstrap sampling from a finite set of values, use this for empirical measurements, optional weights give the weighting values.
+ * `mixture(*sources, weights=None)` - generates a mixture distribution with the given weights.
+ * `normalfit(values)` - fits a normal distribution to the given values, prefer to use `data`, but this has its uses.
 
 ## Library of Constants
 
