@@ -39,7 +39,7 @@ atm_mol = atm_mass / atm_molarmass
 Now let's estimate how much carbon dixode is released into the atmosphere each year.  I remember that globally we use ~18 TW of energy, and that ~80% of that comes from fossil fuels, and that fossil fuels are like fats and so have ~9 kcal/g of energy, and that for every gram of fossil fuels ~3 g of carbon dioxide is released, and carbon dioxide has a molecular mass of 32+12
 
 ```python
-co2_mol = sf.db() * sf.Q(18, 'TW') * sf.outof(80, 100) / (sf.db() * sf.Q(9, 'kcal/g')) * (sf.db() * 3) / (sf.sigfig('12', 'g/mol') + sf.sigfig('32', 'g/mol'))
+co2_mol = sf.Q(18, 'TW') * sf.outof(80, 100) / (sf.db() * sf.Q(9, 'kcal/g')) * (sf.db() * 3) / (sf.sigfig('12', 'g/mol') + sf.sigfig('32', 'g/mol'))
 ```
 ![co2 moles added a year](assets/co2_mol.png)
 
