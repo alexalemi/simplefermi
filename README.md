@@ -23,17 +23,18 @@ Let's try to estimate how much the carbon dioxide in the atmosphere is rising du
 total number of moles of gas in the atmosphere, we'll estimate that by starting with the mass of the atmosphere:
 
 ```python
-atm_mass = (sf.sigfig('1.0', 'atm') / (sf.gravity * sf.percent(7)) * 4 * sf.pi * sf.earthradius**2).to_base_units()
+atm_mass = (sf.sigfig('1.0', 'atm') / (sf.gravity * sf.percent(7)) * 4 * sf.pi * sf.earth_radius**2).to_base_units()
 ```
+![mass of atmosphere](assets/atm_mass.png)
 
 Then we'll estimate the molar mass of the air by using our knowledge that its ~70% nitrogen and the rest oxygen and nitogren is 28 g/mol and oxygen is 32 g/mol
 
 ```python
 f = sf.outof(70, 100)
 atm_molarmass = f * sf.sigfig('28', 'g/mol') + (1-f) * sf.sigfig('32', 'g/mol')
-atm_mole = atm_mass / atm_molarmass
+atm_mol = atm_mass / atm_molarmass
 ```
-![moles in the atmosphere](assets/atm_mole.png)
+![moles in the atmosphere](assets/atm_mol.png)
 
 Now let's estimate how much carbon dixode is released into the atmosphere each year.  I remember that globally we use ~18 TW of energy, and that ~80% of that comes from fossil fuels, and that fossil fuels are like fats and so have ~9 kcal/g of energy, and that for every gram of fossil fuels ~3 g of carbon dioxide is released, and carbon dioxide has a molecular mass of 32+12
 
@@ -45,9 +46,11 @@ co2_mol = sf.db() * sf.Q(18, 'TW') * sf.outof(80, 100) / (sf.db() * sf.Q(9, 'kca
 This let's us estimate how much carbon dixode is added to the atmosphere each year:
 
 ```python
-(co2_mol / atm_mole).to('ppm/year')
+(co2_mol / atm_mol).to('ppm/year')
 ```
-![co2 concentration added each year](co2_grow.png)
+![co2 concentration added each year](co2_increase.png)
+
+Currently the concentration of CO2 in the atmosphere is growing at about [2.37 ppm/year](https://mlg.eng.cam.ac.uk/carl/words/carbon.html#:~:text=This%20means%20that%20currently%2C%20the,about%202.37%20ppm%20per%20year.).
 
 
 ## Core library
