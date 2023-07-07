@@ -41,14 +41,14 @@ Now let's estimate how much carbon dixode is released into the atmosphere each y
 ```python
 co2_mol = sf.db() * sf.Q(18, 'TW') * sf.outof(80, 100) / (sf.db() * sf.Q(9, 'kcal/g')) * (sf.db() * 3) / (sf.sigfig('12', 'g/mol') + sf.sigfig('32', 'g/mol'))
 ```
-![co2 moles added a year](co2_mol.png)
+![co2 moles added a year](assets/co2_mol.png)
 
 This let's us estimate how much carbon dixode is added to the atmosphere each year:
 
 ```python
 (co2_mol / atm_mol).to('ppm/year')
 ```
-![co2 concentration added each year](co2_increase.png)
+![co2 concentration added each year](assets/co2_increase.png)
 
 Currently the concentration of CO2 in the atmosphere is growing at about [2.37 ppm/year](https://mlg.eng.cam.ac.uk/carl/words/carbon.html#:~:text=This%20means%20that%20currently%2C%20the,about%202.37%20ppm%20per%20year.).
 
