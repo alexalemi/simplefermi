@@ -58,18 +58,19 @@ Currently the concentration of CO2 in the atmosphere is growing at about [2.37 p
 The basic datatype in `simplefermi` is a `Quantity` which represents both some value (potentially with uncertainty) as well as its units.
 
 `Quantity` aka `Q` generates quantities. For example:
-		* `Quantity(1, 'm/s')` represents 1 meter per second.
-		* `Q(1, 'm')` represents 1 meter.
-		* `Q(32, 'years')`
-		* `Q(2, 'm') / Q(3, 's') == Q(2/3, 'm/s')` basic arithmetic works as expected.
+
+ * `Quantity(1, 'm/s')` represents 1 meter per second.
+ * `Q(1, 'm')` represents 1 meter.
+ * `Q(32, 'years')`
+ * `Q(2, 'm') / Q(3, 's') == Q(2/3, 'm/s')` basic arithmetic works as expected.
 
 ### Distributions
 
-	* `plusminus(mean, std)` - represents a number like 3 +/- 2, with a given mean and standard deviation.
-	* `normal(left, right)` - represents a normal distribution between the given limits.
-	* `timesdivide(mean, std)` - represents a number and some typical multiplicative variance.
-	* `lognormal(low, high)` - represents a log normal distribution between the two limits, use this for most positive physical quantities.
-	* `to(low, high)` - for both arguments being positive, its `lognormal`, else `normal`.
+ * `plusminus(mean, std)` - represents a number like 3 +/- 2, with a given mean and standard deviation.
+ * `normal(left, right)` - represents a normal distribution between the given limits.
+ * `timesdivide(mean, std)` - represents a number and some typical multiplicative variance.
+ * `lognormal(low, high)` - represents a log normal distribution between the two limits, use this for most positive physical quantities.
+ * `to(low, high)` - for both arguments being positive, its `lognormal`, else `normal`.
 
 For percentages, there are some helpers:
 
