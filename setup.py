@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
         name="SimpleFermi",
-        version="0.1.0",
+        version="0.1.1",
         packages=["simplefermi",],
         author="Alex Alemi",
         author_email="alexalemi@gmail.com",

@@ -16,6 +16,39 @@ Afterwards the library can be used from the command line with:
 of you can launch an `ipython {console, qtconsole, notebook}` session and use it like a library with the recommended abbreviation:
 
 		import simplefermi as sf
+		
+## Example Usage
+
+Let's try to estimate how much the carbon dioxide in the atmosphere is rising due to human activity.  First let's estimate the 
+total number of moles of gas in the atmosphere, we'll estimate that by starting with the mass of the atmosphere:
+
+```python
+atm_mass = (sf.sigfig('1.0', 'atm') / (sf.gravity * sf.percent(7)) * 4 * sf.pi * sf.earthradius**2).to_base_units()
+```
+
+Then we'll estimate the molar mass of the air by using our knowledge that its ~70% nitrogen and the rest oxygen and nitogren is 28 g/mol and oxygen is 32 g/mol
+
+```python
+f = sf.outof(70, 100)
+atm_molarmass = f * sf.sigfig('28', 'g/mol') + (1-f) * sf.sigfig('32', 'g/mol')
+atm_mole = atm_mass / atm_molarmass
+```
+![moles in the atmosphere](assets/atm_mole.png)
+
+Now let's estimate how much carbon dixode is released into the atmosphere each year.  I remember that globally we use ~18 TW of energy, and that ~80% of that comes from fossil fuels, and that fossil fuels are like fats and so have ~9 kcal/g of energy, and that for every gram of fossil fuels ~3 g of carbon dioxide is released, and carbon dioxide has a molecular mass of 32+12
+
+```python
+co2_mol = sf.db() * sf.Q(18, 'TW') * sf.outof(80, 100) / (sf.db() * sf.Q(9, 'kcal/g')) * (sf.db() * 3) / (sf.sigfig('12', 'g/mol') + sf.sigfig('32', 'g/mol'))
+```
+![co2 moles added a year](co2_mol.png)
+
+This let's us estimate how much carbon dixode is added to the atmosphere each year:
+
+```python
+(co2_mol / atm_mole).to('ppm/year')
+```
+![co2 concentration added each year](co2_grow.png)
+
 
 ## Core library
 
