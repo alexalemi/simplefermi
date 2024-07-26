@@ -5,6 +5,7 @@ from io import BytesIO
 from termcolor import colored
 import numpy as np
 import matplotlib.units
+import base64
 from PIL import Image
 
 from simplefermi import core
@@ -34,6 +35,24 @@ def repr(q: pint.Quantity) -> str:
     human_name = core.human_lookup(q.units)
     if human_name:
         result = result + colored(f' {{{human_name}}}', 'yellow')
+
+    return result
+
+def html_repr(q: pint.Quantity) -> str:
+    low, mid, high = np.quantile(q.magnitude, [(1-P)/2, 0.5, 1-(1-P)/2])
+    rg = high - low
+
+    result = f'{mid}'
+
+    if rg:
+        mid, low, high = utils.repr(q.magnitude)
+        result = f'{mid}' + f"<font color='green'> ({low} to {high})</font>"
+
+    result = result + f"<font color='blue'> [{q.units:~P}]</font>"
+
+    human_name = core.human_lookup(q.units)
+    if human_name:
+        result = result + f"<font color='orange'> {{{human_name}}}</font>"
 
     return result
 
@@ -116,6 +135,16 @@ def plot(q: core.ureg.Quantity):
         matplotlib.pyplot.close(fig)
         return Image.open(b)
 
+def build_data_url(mimetype: str, data: bytes) -> str:
+    # `data` must be base64 encoded
+    str_repr = data.decode("utf-8").replace("\n", "")
+    return f"data:{mimetype};base64,{str_repr}"
+
+def _mime_(q: core.ureg.Quantity):
+    plot_bytes = base64.b64encode(_plotter(q))
+    data_url = build_data_url("image/png", plot_bytes)
+    return ("text/html", f"{html_repr(q)}<br><img src='{data_url}' />")
 
 core.ureg.Quantity.plot = plot
 core.ureg.Quantity._repr_png_ = _plotter
+core.ureg.Quantity._mime_ = _mime_
