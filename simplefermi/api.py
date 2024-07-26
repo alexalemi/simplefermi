@@ -78,7 +78,6 @@ def _repr_pretty_(p: pint.Quantity, printer, cycle: bool):
     printer.text(repr(p))
 
 
-core.ureg.Quantity._repr_html_ = None
 core.ureg.Quantity._repr_latex_ = None
 core.ureg.Quantity.__repr__ = plain_repr
 core.ureg.Quantity._repr_pretty_ = _repr_pretty_
@@ -148,3 +147,4 @@ def _mime_(q: core.ureg.Quantity):
 core.ureg.Quantity.plot = plot
 core.ureg.Quantity._repr_png_ = _plotter
 core.ureg.Quantity._mime_ = _mime_
+core.ureg.Quantity._repr_html_ = lambda self: _mime_(self)[1]
