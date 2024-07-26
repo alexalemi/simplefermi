@@ -6,7 +6,7 @@ It's a programming environment that lets you work easily with both units and a s
 
 ## Installation
 
-		pip install git+https://git.alexalemi.com/alemi/simplefermi.git
+		pip install git+https://github.com/alexalemi/simplefermi.git
 		
 		
 Afterwards the library can be used from the command line with:
