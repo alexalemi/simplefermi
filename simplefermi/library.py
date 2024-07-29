@@ -3,11 +3,10 @@
 import math
 import sys
 
-_this_module = sys.modules[__name__]
-
-from simplefermi.core import ureg, human, make, store, human_lookup
+from simplefermi.core import ureg, make, store
 from simplefermi.distributions import data, plusminus
 
+_this_module = sys.modules[__name__]
 
 m = ureg.m
 s = ureg.s
@@ -37,55 +36,55 @@ day = ureg.day
 ten = 10
 kilo = 1000
 
-store(m, 'length')
-store(s, 'time')
-store(kg, 'mass')
-store(A, 'current')
-store(K, 'temperature')
+store(m, "length")
+store(s, "time")
+store(kg, "mass")
+store(A, "current")
+store(K, "temperature")
 dollar = make("dollar")
-store(dollar, 'currency')
-store(mol, 'amount of substance')
-store(bit, 'information')
-store(cd, 'luminous intensity')
-store(dimensionless, 'dimensionless')
-store(m**2, 'area')
-store(m**3, 'volume')
-store(s**-1, 'frequency')
-store(m*s**-1, 'velocity')
-store(m*s**-2, 'acceleration')
-store(m*kg*s**-1, 'momentum')
-store(m*kg*s**-2, 'force')
-store(m**2*kg*s**-3, 'power')
-store(m**-1*kg*s**-2, 'pressure')
-store(m**2*kg*s**-2, 'energy')
-store(m**2*kg*s**-1, 'angular momentum')
-store(m**2*kg, 'moment of inertia')
-store(m**3*s**-1, 'flow')
-store(m**-3*kg, 'mass density')
-store(m**3*kg**-1, 'specific volume')
-store(A*m**-2, 'electric current density')
-store(dollar*kg**-1, 'price per mass')
+store(dollar, "currency")
+store(mol, "amount of substance")
+store(bit, "information")
+store(cd, "luminous intensity")
+store(dimensionless, "dimensionless")
+store(m**2, "area")
+store(m**3, "volume")
+store(s**-1, "frequency")
+store(m * s**-1, "velocity")
+store(m * s**-2, "acceleration")
+store(m * kg * s**-1, "momentum")
+store(m * kg * s**-2, "force")
+store(m**2 * kg * s**-3, "power")
+store(m**-1 * kg * s**-2, "pressure")
+store(m**2 * kg * s**-2, "energy")
+store(m**2 * kg * s**-1, "angular momentum")
+store(m**2 * kg, "moment of inertia")
+store(m**3 * s**-1, "flow")
+store(m**-3 * kg, "mass density")
+store(m**3 * kg**-1, "specific volume")
+store(A * m**-2, "electric current density")
+store(dollar * kg**-1, "price per mass")
 
-store(J*m**-2, 'surface tension')
+store(J * m**-2, "surface tension")
 
-store(coulomb, 'charge')
-store(coulomb*m**-2, 'surface charge density')
-store(coulomb*m**-3, 'electric charge density')
+store(coulomb, "charge")
+store(coulomb * m**-2, "surface charge density")
+store(coulomb * m**-3, "electric charge density")
 
-store(volt, 'electric potential')
-store(V / m, 'electric field strength')
-store(A / m, 'magnetic field strength')
+store(volt, "electric potential")
+store(V / m, "electric field strength")
+store(A / m, "magnetic field strength")
 
-store(ohm, 'electric resistance')
+store(ohm, "electric resistance")
 
-store(siemens, 'electric conductance')
+store(siemens, "electric conductance")
 
-store(weber, 'magnetic flux')
-store(henry, 'inductance')
+store(weber, "magnetic flux")
+store(henry, "inductance")
 
-store(tesla, 'magnetic flux density')
-store(J/K, 'heat capacity')
-store(J*kg**-1*K**-1, 'specific heat capacity')
+store(tesla, "magnetic flux density")
+store(J / K, "heat capacity")
+store(J * kg**-1 * K**-1, "specific heat capacity")
 lumen = ureg.lumen
 
 ## populate from pint
@@ -118,8 +117,7 @@ kcd = 683 * (lumen / watt)
 # h = plusminus(6.626070040e-34, 0.000000081e-34) * (J * s)
 hbar = h / (2 * pi)
 classical_electron_radius = plusminus(2.8179403227e-15, 0.0000000019e-15) * m
-thomson_cross_section = plusminus(
-    0.66524587158e-28, 0.00000000091e-28) * (m**2)
+thomson_cross_section = plusminus(0.66524587158e-28, 0.00000000091e-28) * (m**2)
 G = plusminus(6.67408e-11, 0.00031e-11) * (N * m**2 / kg**2)
 standard_gravity = 9.80662 * m / s**2
 atomic_mass_unit = plusminus(1.660539040e-27, 0.000000020e-27) * kg
@@ -131,12 +129,11 @@ wien_displacement = plusminus(2.8977729e-3, 0.0000017e-3) * (m * K)
 Rydberg_constant = plusminus(10973731.568508, 0.000065) * (m**-1)
 bohr_radius = plusminus(0.52917721067e-10, 0.00000000012e-10) * m
 planck_temperature = plusminus(1.416808e32, 0.000033e32) * K
-muon_magnetic_moment = plusminus(-4.49044826e-26, 0.00000010e-26) * (J/T)
-proton_magnetic_moment = plusminus(1.4106067873e-26, 0.0000000097e-26) * (J/T)
-electron_magnetic_moment = plusminus(-928.4764520e-26, 0.0000057e-26) * (J/T)
-neutron_magnetic_moment = plusminus(-0.96623650e-26, 0.00000023e-26) * (J/T)
-deuteron_magnetic_moment = plusminus(
-    0.4330735040e-26, 0.0000000036e-26) * (J/T)
+muon_magnetic_moment = plusminus(-4.49044826e-26, 0.00000010e-26) * (J / T)
+proton_magnetic_moment = plusminus(1.4106067873e-26, 0.0000000097e-26) * (J / T)
+electron_magnetic_moment = plusminus(-928.4764520e-26, 0.0000057e-26) * (J / T)
+neutron_magnetic_moment = plusminus(-0.96623650e-26, 0.00000023e-26) * (J / T)
+deuteron_magnetic_moment = plusminus(0.4330735040e-26, 0.0000000036e-26) * (J / T)
 
 ## Derived values
 

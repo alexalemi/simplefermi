@@ -1,7 +1,5 @@
-
-import math
 import numpy as np
-from matplotlib import rc, patches
+from matplotlib import patches
 import matplotlib.pyplot as plt
 
 
@@ -14,7 +12,7 @@ def smoothing(v, thres):
     while v[a] == v[b]:
         b += 1
 
-    while (b < n):
+    while b < n:
         # get right stack
         c = b + 1
         while c < n and v[b] == v[c]:
@@ -22,12 +20,12 @@ def smoothing(v, thres):
 
         # are stacks adjacent?
         # if so, compare sizes and swap as needed
-        if ((v[b] - v[b-1]) < thres):
+        if (v[b] - v[b - 1]) < thres:
             d = b + ((a + c - b - b) >> 1)
-            while (d < b):
+            while d < b:
                 v[d] = v[b]
                 d += 1
-            while (d > b):
+            while d > b:
                 v[d] = v[a]
                 d -= 1
 
@@ -39,7 +37,10 @@ def smoothing(v, thres):
 
 def dotbin(array, step, smooth=False, f=None):
     if f is None:
-        def f(x): return x
+
+        def f(x):
+            return x
+
     n = len(array)
     v = np.zeros(n)
 
@@ -51,7 +52,7 @@ def dotbin(array, step, smooth=False, f=None):
 
     while j < n:
         x = f(array[j])
-        if (x >= w):
+        if x >= w:
             b = (a + b) / 2
             while i < j:
                 v[i] = b
@@ -89,7 +90,7 @@ def circle(fig, ax, xy, radius, kwargs=None):
     """
 
     # Calculate figure dimension ratio width/height
-    pr = fig.get_figwidth()/fig.get_figheight()
+    pr = fig.get_figwidth() / fig.get_figheight()
 
     # Get the transScale (important if one of the axis is in log-scale)
     tscale = ax.transScale + (ax.transLimits + ax.transAxes)
@@ -97,12 +98,12 @@ def circle(fig, ax, xy, radius, kwargs=None):
     cfig = fig.transFigure.inverted().transform(ctscale)
 
     # Create circle
-    if kwargs == None:
-        circ = patches.Ellipse(cfig, radius, radius*pr,
-                               transform=fig.transFigure)
+    if kwargs is None:
+        circ = patches.Ellipse(cfig, radius, radius * pr, transform=fig.transFigure)
     else:
-        circ = patches.Ellipse(cfig, radius, radius*pr,
-                               transform=fig.transFigure, **kwargs)
+        circ = patches.Ellipse(
+            cfig, radius, radius * pr, transform=fig.transFigure, **kwargs
+        )
 
     # Draw circle
     ax.add_artist(circ)
@@ -117,10 +118,10 @@ def padinterval(interval, f=0.05):
 def placedots(fig, ax, array, width, **circle_kwargs):
     last = None
     height = 0.5 * width
-    artists = []
+    # artists = []
     maxheight = height
     for value in array:
-        if (value == last):
+        if value == last:
             height += width
             if height > maxheight:
                 maxheight = height
@@ -128,15 +129,21 @@ def placedots(fig, ax, array, width, **circle_kwargs):
             height = 0.5 * width
             last = value
         # circle(fig, ax, (value, height), radius=width/2.0)
-        circle = plt.Circle((value, height), radius=width/2.0, linewidth=2, edgecolor='k', **circle_kwargs)
+        circle = plt.Circle(
+            (value, height),
+            radius=width / 2.0,
+            linewidth=2,
+            edgecolor="k",
+            **circle_kwargs,
+        )
         ax.add_artist(circle)
-    ax.set_xlim(padinterval((min(array) - width/2.0, max(array) + width/2.0)))
-    ax.set_ylim(padinterval((0, maxheight + width/2.0)))
+    ax.set_xlim(padinterval((min(array) - width / 2.0, max(array) + width / 2.0)))
+    ax.set_ylim(padinterval((0, maxheight + width / 2.0)))
 
 
-def dotplot(arr, quantiles=20, log=False, width=None, figsize=(3,2), **circle_kwargs):
+def dotplot(arr, quantiles=20, log=False, width=None, figsize=(3, 2), **circle_kwargs):
     n = quantiles
-    qs = np.arange(0.5/n, 1, 1/n)
+    qs = np.arange(0.5 / n, 1, 1 / n)
     if log:
         quantiles = np.quantile(np.log10(arr), qs)
     else:
@@ -144,10 +151,10 @@ def dotplot(arr, quantiles=20, log=False, width=None, figsize=(3,2), **circle_kw
 
     fig, axs = plt.subplots(figsize=figsize)
     axs.set_yticks([])
-    axs.set_aspect('equal')
+    axs.set_aspect("equal")
 
     if width is None:
-        width = 5/2 * (quantiles.max() - quantiles.min())/n
+        width = 5 / 2 * (quantiles.max() - quantiles.min()) / n
     dotlocs = dotbin(quantiles, width, False)
     placedots(fig, axs, dotlocs, width, **circle_kwargs)
 

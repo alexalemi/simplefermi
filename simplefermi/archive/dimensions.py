@@ -3,11 +3,10 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-from builtins import input, str, dict, object
+from builtins import str, dict, object
 
 import functools
 import numbers
-import fractions
 
 
 def _inc(dictionary, symbol, power=1):
@@ -44,8 +43,7 @@ class Symbol(object):
         return self.name < other.name
 
     def __pow__(self, power):
-        assert isinstance(
-            power, numbers.Rational), 'Can only raise to numeric powers.'
+        assert isinstance(power, numbers.Rational), "Can only raise to numeric powers."
         return Dimension({self: power})
 
     def __mul__(self, other):
@@ -57,18 +55,15 @@ class Symbol(object):
             for symbol, power in other:
                 _inc(dictionary, symbol, power)
             return Dimension(dictionary)
-        raise TypeError(
-            'Can only multiple Symbols by other Symbols or Dimensions.')
+        raise TypeError("Can only multiple Symbols by other Symbols or Dimensions.")
 
     def __rtruediv__(self, other):
         dictionary = {self: -1}
         if isinstance(other, int):
             if other != 1:
-                raise TypeError(
-                    'Cannot divide numbers and Dimensions. (only 1)')
+                raise TypeError("Cannot divide numbers and Dimensions. (only 1)")
         else:
-            raise TypeError(
-                'Can only divide Symbols by other Symbols or Dimensions.')
+            raise TypeError("Can only divide Symbols by other Symbols or Dimensions.")
         return Dimension(dictionary)
 
     def __truediv__(self, other):
@@ -79,8 +74,7 @@ class Symbol(object):
             for symbol, power in other:
                 _dec(dictionary, symbol, power)
         else:
-            raise TypeError(
-                'Can only multiple Symbols by other Symbols or Dimensions.')
+            raise TypeError("Can only multiple Symbols by other Symbols or Dimensions.")
         return Dimension(dictionary)
 
 
@@ -114,8 +108,9 @@ class Dimension(object):
 
     def simplify(self):
         """Remove unused base units."""
-        self._dict = {symbol: power for symbol,
-                      power in self._dict.items() if power != 0}
+        self._dict = {
+            symbol: power for symbol, power in self._dict.items() if power != 0
+        }
         return self
 
     def __pow__(self, other):
@@ -137,7 +132,8 @@ class Dimension(object):
                 _inc(new_dict, symbol, power)
         else:
             raise TypeError(
-                'Can only multiply Dimensions by Symbols or other Dimensions.')
+                "Can only multiply Dimensions by Symbols or other Dimensions."
+            )
         return self.__class__(new_dict)
 
     def __truediv__(self, other):
@@ -153,7 +149,8 @@ class Dimension(object):
                     _dec(new_dict, symbol, power)
             except AttributeError:
                 raise TypeError(
-                    'Can only divide Dimensions by Symbols or other Dimensions.')
+                    "Can only divide Dimensions by Symbols or other Dimensions."
+                )
         return self.__class__(new_dict)
 
     __floordiv__ = __truediv__
@@ -162,22 +159,21 @@ class Dimension(object):
         dictionary = {symbol: -power for symbol, power in self}
         if isinstance(other, int):
             if other != 1:
-                raise TypeError(
-                    'Cannot divide numbers and Dimensions. (only 1)')
+                raise TypeError("Cannot divide numbers and Dimensions. (only 1)")
         else:
-            raise TypeError(
-                'Can only multiple Symbols by other Symbols or Dimensions.')
+            raise TypeError("Can only multiple Symbols by other Symbols or Dimensions.")
         return Dimension(dictionary)
 
     def __repr__(self):
         def _format(symbol, power):
             if power == 1:
                 return repr(symbol)
-            return '%r^%s' % (symbol, power)
-        if self.dimensionless:
-            return '1'
+            return "%r^%s" % (symbol, power)
 
-        return ' '.join([_format(symbol, power) for symbol, power in iter(self)])
+        if self.dimensionless:
+            return "1"
+
+        return " ".join([_format(symbol, power) for symbol, power in iter(self)])
 
 
 def as_dimension(x):
@@ -185,8 +181,7 @@ def as_dimension(x):
         return x.as_dimension()
     if isinstance(x, Dimension):
         return x
-    raise TypeError(
-        'Only Symbols and Dimensions can be promoted to Dimensions.')
+    raise TypeError("Only Symbols and Dimensions can be promoted to Dimensions.")
 
 
 DIMENSIONLESS = Dimension({})

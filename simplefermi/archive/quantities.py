@@ -34,31 +34,33 @@ class Quantity(np.lib.mixins.NDArrayOperatorsMixin):
 
     def __array_ufunc__(self, ufunc, method, *inputs, **kwargs):
         # print(f"inside __array_ufunc__({ufunc}, {method}, {inputs}, {kwargs})")
-        out = kwargs.get('out', ())
+        out = kwargs.get("out", ())
         for x in inputs + out:
             if not isinstance(x, self._HANDLED_TYPES + (Quantity,)):
                 return NotImplemented
 
-        input_dimensions = tuple(x.dimension if isinstance(x, Quantity) else dimensions.DIMENSIONLESS
-                                 for x in inputs)
-        inputs = tuple(x.value if isinstance(x, Quantity) else x
-                       for x in inputs)
+        input_dimensions = tuple(
+            x.dimension if isinstance(x, Quantity) else dimensions.DIMENSIONLESS
+            for x in inputs
+        )
+        inputs = tuple(x.value if isinstance(x, Quantity) else x for x in inputs)
         if out:
-            kwargs['out'] = tuple(
-                x.value if isinstance(x, Quantity) else x
-                for x in out)
+            kwargs["out"] = tuple(
+                x.value if isinstance(x, Quantity) else x for x in out
+            )
 
         if ufunc in self._CONFORMING_UFUNCS:
             # check to make sure that all of the inputs have the same dimensions.
             assert functools.reduce(
-                operator.eq, input_dimensions), f'Can only use {ufunc} on conforming quantities!'
+                operator.eq, input_dimensions
+            ), f"Can only use {ufunc} on conforming quantities!"
             result_dimension = input_dimensions[0]
         elif ufunc in self._MAPPED_UFUNCS:
-            result_dimension = getattr(ufunc, method)(
-                *input_dimensions, **kwargs)
+            result_dimension = getattr(ufunc, method)(*input_dimensions, **kwargs)
         elif ufunc in self._NONLINEAR_UFUNCS:
             assert all(
-                x.dimensionless for x in input_dimensions), f'Can only use {ufunc} on dimensionless quantities!'
+                x.dimensionless for x in input_dimensions
+            ), f"Can only use {ufunc} on dimensionless quantities!"
             result_dimension = input_dimensions[0]
         else:
             return NotImplemented
@@ -68,7 +70,7 @@ class Quantity(np.lib.mixins.NDArrayOperatorsMixin):
         if type(result) is tuple:
             # multiple return values
             return tuple(type(self)(x, result_dimension) for x in result)
-        elif method == 'at':
+        elif method == "at":
             # no return value
             return None
         else:
@@ -76,7 +78,7 @@ class Quantity(np.lib.mixins.NDArrayOperatorsMixin):
             return type(self)(result, result_dimension)
 
     def __pow__(self, other):
-        return Quantity(self.value ** other, self.dimension ** other)
+        return Quantity(self.value**other, self.dimension**other)
 
     def __eq__(self, other):
         return (self.dimension == other.dimension) and (self.value == other.value)
@@ -126,4 +128,4 @@ class Quantity(np.lib.mixins.NDArrayOperatorsMixin):
     """
 
     def __repr__(self):
-        return f'Q({self.value}, {self.dimension})'
+        return f"Q({self.value}, {self.dimension})"

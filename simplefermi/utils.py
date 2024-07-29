@@ -1,8 +1,6 @@
-
 from math import floor, log10
 import re
 import sys
-import numpy as np
 
 
 P = 0.6826894
@@ -12,7 +10,7 @@ ALPHA = 1 - P
 def median(sorted_vals):
     size = len(sorted_vals)
     if size % 2 == 1:
-        return sorted_vals[(size+1)//2]
+        return sorted_vals[(size + 1) // 2]
     else:
         return 0.5 * (sorted_vals[size // 2] + sorted_vals[size // 2 + 1])
 
@@ -20,7 +18,7 @@ def median(sorted_vals):
 def interval(sorted_vals, alpha=ALPHA):
     """Gives the interval for a sorted set of values."""
     size = len(sorted_vals)
-    cut = int(size * alpha/2.)
+    cut = int(size * alpha / 2.0)
     if cut < 10:
         return sorted_vals[0], sorted_vals[-1]
     return sorted_vals[cut], sorted_vals[-cut]
@@ -29,12 +27,12 @@ def interval(sorted_vals, alpha=ALPHA):
 def shortest_interval(sorted_vals, alpha=ALPHA):
     """Gives the shortest interval for a sorted set of values."""
     size = len(sorted_vals)
-    cut = int(size * (1-alpha))
+    cut = int(size * (1 - alpha))
     if cut < 10:
         return sorted_vals[0], sorted_vals[-1]
     left = size - cut
     start = (sorted_vals[-left:] - sorted_vals[:left]).argmin()
-    return sorted_vals[start], sorted_vals[start+cut]
+    return sorted_vals[start], sorted_vals[start + cut]
 
 
 def magnitude(x):
@@ -46,7 +44,7 @@ def magnitude(x):
 
 def round_sig(x, sig=2):
     """Round to the given significant digits."""
-    return round(x, sig-magnitude(x)-1)
+    return round(x, sig - magnitude(x) - 1)
 
 
 def round_mag(x, mag=1):
@@ -55,18 +53,18 @@ def round_mag(x, mag=1):
 
 def repr_sig(x, sig=2):
     if sys.version_info[0] > 2:
-        return '{{:#,.0{}g}}'.format(sig).format(x)
+        return "{{:#,.0{}g}}".format(sig).format(x)
     else:
-        return '{{:,.0{}g}}'.format(sig).format(x)
+        return "{{:,.0{}g}}".format(sig).format(x)
 
 
 def repr_mag(x, mag=0, padding=2):
-    sig = max(-mag+magnitude(x)+padding, 0)
+    sig = max(-mag + magnitude(x) + padding, 0)
     x = round_sig(x, sig)
     if sys.version_info[0] > 2:
-        return '{{:#,.0{}g}}'.format(sig).format(x)
+        return "{{:#,.0{}g}}".format(sig).format(x)
     else:
-        return '{{:,.0{}g}}'.format(sig).format(x)
+        return "{{:,.0{}g}}".format(sig).format(x)
 
 
 def round_repr(center, left, right, padding=2):
@@ -79,9 +77,11 @@ def repr(values, padding=2):
     left, right = interval(sorted_values)
     center = median(sorted_values)
     mag = magnitude(right - left)
-    return (repr_mag(center, mag, padding=padding),
-            repr_mag(left, mag, padding=padding),
-            repr_mag(right, mag, padding=padding))
+    return (
+        repr_mag(center, mag, padding=padding),
+        repr_mag(left, mag, padding=padding),
+        repr_mag(right, mag, padding=padding),
+    )
 
 
 def sigfig_resolution(number_string):
@@ -101,7 +101,7 @@ def sigfig_resolution(number_string):
     # Split the number into relevant pieces, zero out all but the last nonzero digit, and then
     # divide by 10.0
     #  0: sign  1: numbers  2. zeros 3: dot  4: digits 5: exponent
-    pat = r'^([+-]?)(\d*?)(0*)(\.)?(\d*)([eE][-=]?\d+)?$'
+    pat = r"^([+-]?)(\d*?)(0*)(\.)?(\d*)([eE][-=]?\d+)?$"
 
     # Special case, if the input is zero, return zero
     if float(number_string) == 0.0:
@@ -113,20 +113,19 @@ def sigfig_resolution(number_string):
         if groups[4]:
             # if there are any numbers to the right of the decimal
             # zero out the leading numbers
-            groups[1] = ''.join('0' for x in groups[1]) or ''
-            groups[4] = ''.join('0' for x in groups[4]) or ''
-            groups[4] = groups[4][:-1] + '1'
+            groups[1] = "".join("0" for x in groups[1]) or ""
+            groups[4] = "".join("0" for x in groups[4]) or ""
+            groups[4] = groups[4][:-1] + "1"
         else:
             # Unit zero
             return float(1.0)
     else:
         # Doesn't contain a decimal, just do the last nonzero, but using a new pattern
         #  0: sign  1: numbers  2. zeros 3: dot  4: digits 5: exponent
-        pat = r'^([+-]?)(\d*?)(0*)([eE][-=]?\d+)?$'
+        pat = r"^([+-]?)(\d*?)(0*)([eE][-=]?\d+)?$"
         groups = list(re.match(pat, number_string).groups())
-        groups[1] = ''.join('0' for x in groups[1]) or ''
-        groups[1] = groups[1][:-1] + '1'
+        groups[1] = "".join("0" for x in groups[1]) or ""
+        groups[1] = groups[1][:-1] + "1"
 
-    groups = [(x or '') for x in groups]
-    return float(''.join(groups))
-
+    groups = [(x or "") for x in groups]
+    return float("".join(groups))
