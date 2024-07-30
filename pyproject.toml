@@ -17,6 +17,7 @@ watchdog = "^4.0.1"
 markdown = "^3.6"
 flask = "^3.0.3"
 flask-socketio = "^5.3.6"
+tree-sitter = "^0.22.3"
 
 
 [tool.poetry.group.dev.dependencies]
