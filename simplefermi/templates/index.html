@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>Fermi Notebook</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+		<script type="text/javascript">
+			var socket = io();
+			socket.on('update', function(data) {
+				document.getElementById('content').innerHTML = data.html;
+				MathJax.texReset(0);
+				MathJax.typeset();
+				// MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+			});
+		</script>
+		<style>
+html {
+	max-width: 70ch;
+	padding: 3em 1em;
+	margin: auto;
+	line-height: 1.75;
+	font-size: 1.25em;
+}
+		</style>
+		<script>
+			MathJax = {
+				tex: {
+					inlineMath: [['$', '$'], ['\\(', '\\)']],
+					tags: 'ams'
+				}};
+		</script>
+	  <script id="MathJax-script" async
+				src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+		</script>
+	</head>
+	<body>
+		<div id="content"></div>
+	</body>
+</html>

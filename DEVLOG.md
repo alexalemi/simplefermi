@@ -6,6 +6,14 @@ I'm trying to build a minimalistic implementation of fermi.
 
 	* tree-sitter parser and evaluator.
 
+## 2024-07-30
+
+Dusted off this project, decided I want to have a nice live file monitor, for
+that I need to have a watchdog type thing that looks for changes in a directory
+as well as the parser and the like.  Worked on the basic renderer with the
+`notebook.py` file in `simplefermi/` which also renders mathjax right now.  Now
+I need to add the grammar and parser and things.
+
 ## 2023-07-06
 
 Worked on finishing out the library.  I rediscovered that it was reasonably

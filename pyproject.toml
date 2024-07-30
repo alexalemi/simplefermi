@@ -13,6 +13,10 @@ numpy = "^2.0.1"
 pint = "^0.24.3"
 pyerf = "^1.0.1"
 termcolor = "^2.4.0"
+watchdog = "^4.0.1"
+markdown = "^3.6"
+flask = "^3.0.3"
+flask-socketio = "^5.3.6"
 
 
 [tool.poetry.group.dev.dependencies]
