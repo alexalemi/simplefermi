@@ -14,6 +14,13 @@ as well as the parser and the like.  Worked on the basic renderer with the
 `notebook.py` file in `simplefermi/` which also renders mathjax right now.  Now
 I need to add the grammar and parser and things.
 
+Worked some more and managed to get mathjax support and some code highlighting
+in the notebook renderer. I also plumbed in a simple fermi preprocessor that
+computes the results, now I really just need to implement the eval for the
+language though looking at the parsed sexps, it looks like I might have to
+revisit the grammar as it seems as though things aren't really working
+currently.
+
 ## 2023-07-06
 
 Worked on finishing out the library.  I rediscovered that it was reasonably

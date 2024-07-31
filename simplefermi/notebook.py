@@ -107,6 +107,8 @@ class FermiExtension(markdown.Extension):
 
 
 FERMI_BLOCK = re.compile(r"(```fermi\n(.*?)(?<=\n)```($|\n))", re.DOTALL)
+
+
 def preprocess_fermi(s):
     def subfn(match):
         full = match.group(0)
@@ -125,7 +127,9 @@ class MarkdownHandler(FileSystemEventHandler):
                 content = f.read()
                 content = preprocess_math(content)
                 content = preprocess_fermi(content)
-            html = markdown.markdown(content, extensions=[FermiExtension(), 'codehilite', 'fenced_code'])
+            html = markdown.markdown(
+                content, extensions=[FermiExtension(), "codehilite", "fenced_code"]
+            )
             socketio.emit("update", {"html": html})
 
 
