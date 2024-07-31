@@ -10,6 +10,7 @@ import os
 import re
 import sys
 import functools
+import parser
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -105,6 +106,17 @@ class FermiExtension(markdown.Extension):
         pass
 
 
+FERMI_BLOCK = re.compile(r"(```fermi\n(.*?)(?<=\n)```($|\n))", re.DOTALL)
+def preprocess_fermi(s):
+    def subfn(match):
+        full = match.group(0)
+        fermi_code = match.group(1)
+        out = str(parser.parse(fermi_code))
+        return f"{full}\n<div class='fermiout'>{out}</div>"
+
+    return FERMI_BLOCK.sub(subfn, s)
+
+
 class MarkdownHandler(FileSystemEventHandler):
     def on_modified(self, event):
         if event.src_path.endswith(".md"):
@@ -112,7 +124,8 @@ class MarkdownHandler(FileSystemEventHandler):
             with open(event.src_path, "r") as f:
                 content = f.read()
                 content = preprocess_math(content)
-            html = markdown.markdown(content, extensions=[FermiExtension()])
+                content = preprocess_fermi(content)
+            html = markdown.markdown(content, extensions=[FermiExtension(), 'codehilite', 'fenced_code'])
             socketio.emit("update", {"html": html})
 
 

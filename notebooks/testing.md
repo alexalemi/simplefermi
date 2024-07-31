@@ -1,5 +1,10 @@
 # A Test notebook
 
+```fermi
+3 + 3 * 4
+```
+
+
 \begin{equation}
 \mathbf{F} = m\mathbf{a}
 \end{equation}
@@ -31,3 +36,7 @@ E &= mc^2 \\
 F &= ma
 \end{align}
 
+```clojure
+(defn foo [x]
+    (+ x 1))
+```

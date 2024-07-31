@@ -18,6 +18,7 @@ markdown = "^3.6"
 flask = "^3.0.3"
 flask-socketio = "^5.3.6"
 tree-sitter = "^0.22.3"
+pygments = "^2.18.0"
 
 
 [tool.poetry.group.dev.dependencies]
