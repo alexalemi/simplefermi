@@ -2,7 +2,7 @@
 
 import math
 import numpy as np
-from pyerf import pyerf
+from scipy.special import erfinv
 
 from simplefermi.core import Q
 from simplefermi import utils
@@ -20,7 +20,7 @@ def _unitize(vals, units=None):
 
 
 def _factor(x):
-    return math.sqrt(2) * pyerf.erfinv(2 * x - 1)
+    return math.sqrt(2) * erfinv(2 * x - 1)
 
 
 ## Normal Distributions

@@ -28,7 +28,6 @@ matplotlib-inline==0.1.7
     # via ipython
 numpy==2.2.1
     # via
-    #   simplefermi (setup.py)
     #   contourpy
     #   matplotlib
 packaging==24.2
@@ -51,8 +50,6 @@ ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.3
     # via stack-data
-pyerf==1.0.1
-    # via simplefermi (setup.py)
 pygments==2.19.1
     # via ipython
 pyparsing==3.2.1
@@ -73,6 +70,7 @@ typing-extensions==4.12.2
     # via
     #   flexcache
     #   flexparser
+    #   ipython
     #   pint
 wcwidth==0.2.13
     # via prompt-toolkit
