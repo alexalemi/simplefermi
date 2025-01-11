@@ -579,8 +579,8 @@ requires-dist = [
     { name = "ipython", specifier = ">=8.27.0" },
     { name = "matplotlib", specifier = ">=3.9.2" },
     { name = "pillow", specifier = ">=11.0.0" },
-    { name = "pint", specifier = ">=0.24.4" },
-    { name = "scipy", specifier = ">=1.15.1" },
+    { name = "pint", specifier = ">=0.22" },
+    { name = "scipy", specifier = ">=1.14.1" },
     { name = "termcolor", specifier = ">=2.5.0" },
 ]
 

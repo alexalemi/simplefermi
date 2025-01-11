@@ -12,3 +12,5 @@ dependencies = [
     "scipy>=1.14.1",
     "termcolor>=2.5.0",
 ]
+[tool.setuptools]
+py-modules = ['simplefermi']

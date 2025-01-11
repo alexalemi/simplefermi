@@ -9,3 +9,4 @@ notebooks/.ipynb_checkpoints/
 .ipynb_checkpoints/
 .venv
 poetry.lock
+*.egg-info/
