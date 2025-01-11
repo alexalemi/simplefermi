@@ -1,29 +1,15 @@
-[tool.poetry]
+[project]
 name = "simplefermi"
 version = "0.1.0"
-description = "A simple physical quantity utility toolset."
-authors = ["Alex Alemi <alexalemi@gmail.com>"]
-license = "MIT"
+description = "Allows for simple uncertainty calculations."
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.10"
-matplotlib = "^3.9.1"
-numpy = "^2.0.1"
-pint = "^0.24.3"
-pyerf = "^1.0.1"
-termcolor = "^2.4.0"
-watchdog = "^4.0.1"
-markdown = "^3.6"
-flask = "^3.0.3"
-flask-socketio = "^5.3.6"
-tree-sitter = "^0.22.3"
-pygments = "^2.18.0"
-
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.3.2"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires-python = ">=3.13"
+dependencies = [
+    "ipython>=8.31.0",
+    "matplotlib>=3.10.0",
+    "numpy>=2.2.1",
+    "pillow>=11.1.0",
+    "pint>=0.24.4",
+    "pyerf>=1.0.1",
+    "termcolor>=2.5.0",
+]
