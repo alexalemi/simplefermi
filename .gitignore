@@ -10,3 +10,4 @@ notebooks/.ipynb_checkpoints/
 .venv
 poetry.lock
 *.egg-info/
+.envrc

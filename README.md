@@ -8,6 +8,10 @@ It's a programming environment that lets you work easily with both units and a s
 
 		pip install git+https://github.com/alexalemi/simplefermi.git
 		
+or, now with the package on pypi:
+		
+		uv pip install simplefermi
+		
 		
 Afterwards the library can be used from the command line with:
 
